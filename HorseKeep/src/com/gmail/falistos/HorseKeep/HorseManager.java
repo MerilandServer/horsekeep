@@ -350,6 +350,13 @@ public class HorseManager {
     public void store(Horse horse)
     {
     	this.data.getHorsesData().set("horses."+horse.getUniqueId().toString()+".stored", true);
+		saveHorseInfo(horse);
+    }
+
+	public void saveHorseInfo(Horse horse)
+	{
+		Location loc = horse.getLocation();
+		this.data.getHorsesData().set("horses."+horse.getUniqueId().toString()+".lastpos", loc.getWorld().getName()+":"+loc.getX()+":"+loc.getY()+":"+loc.getZ()+":"+loc.getYaw()+":"+loc.getPitch());
     	this.data.getHorsesData().set("horses."+horse.getUniqueId().toString()+".tamed", horse.isTamed());
     	this.data.getHorsesData().set("horses."+horse.getUniqueId().toString()+".variant", horse.getVariant().toString());
     	this.data.getHorsesData().set("horses."+horse.getUniqueId().toString()+".style", horse.getStyle().toString());
@@ -385,7 +392,7 @@ public class HorseManager {
     	else this.data.getHorsesData().set("horses."+horse.getUniqueId().toString()+".chestcontent", null);
 
     	this.data.save();
-    }
+	}
 
     public boolean isStored(UUID horseUUID)
     {
@@ -457,7 +464,7 @@ public class HorseManager {
 
     public HorseTeleportResponse teleportHorse(UUID horseUUID, Location loc)
     {
-    	if (this.data.getHorsesData().getBoolean("horses."+horseUUID+".stored"))
+    	if (this.data.getHorsesData().getBoolean("horses."+horseUUID.toString()+".stored"))
     	{
     		return HorseTeleportResponse.NOT_TELEPORTED_STORED;
     	}
@@ -502,7 +509,12 @@ public class HorseManager {
 				}
 			}
 
-			return HorseTeleportResponse.NOT_TELEPORTED_ENTITY_DELETED;
+			// If this gets hit something probably went wrong, so force the horse to stored
+			// and attempt to transparently create a new one from the info that's available
+			this.data.getHorsesData().set("horses."+horseUUID.toString()+".stored", true);
+			this.data.save();
+			summon(getHorseIdentifier(horseUUID), loc);
+			return HorseTeleportResponse.TELEPORTED;
 		}
 
 		return HorseTeleportResponse.NOT_TELEPORTED;

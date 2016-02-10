@@ -318,10 +318,7 @@ public class HorseKeep extends JavaPlugin implements Listener
         		if (this.manager.isOwned(e.getUniqueId()))
         		{
         			// We save horse location
-        			Location loc = e.getLocation();
-        			this.data.getHorsesData().set("horses."+e.getUniqueId()+".lastpos",loc.getWorld().getName()+":"+loc.getX()+":"+loc.getY()+":"+loc.getZ()+":"+loc.getYaw()+":"+loc.getPitch());
-
-        			this.data.save();
+        			this.manager.saveHorseInfo((Horse) e);
         		}
         	}
         }
@@ -381,6 +378,8 @@ public class HorseKeep extends JavaPlugin implements Listener
         		event.getPlayer().sendMessage(this.getChatPrefix() + this.lang.get("horseProtected").replace("%id", this.manager.getHorseIdentifier(this.manager.getHorseUUID(horse))));
 
         		if (getConfig().getBoolean("autoTameHorseOnProtect")) { horse.setTamed(true); }
+
+				this.manager.saveHorseInfo(horse);
         	}
         }
         else
