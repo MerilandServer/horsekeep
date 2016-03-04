@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>HorseKeep</groupId>
     <artifactId>HorseKeep</artifactId>
-    <version>0.3.2-SNAPSHOT</version>
+    <version>0.3.3</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.5</maven.compiler.source>

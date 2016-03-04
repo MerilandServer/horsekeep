@@ -22,7 +22,7 @@ import java.util.Map.Entry;
 
 public class HorseKeep extends JavaPlugin implements Listener
 {
-	public String version = "0.3.2";
+	public String version = "0.3.3";
 
 	public Permission perm = null;
 	public HorseManager manager = null;
@@ -373,7 +373,7 @@ public class HorseKeep extends JavaPlugin implements Listener
 
         		horse.getWorld().playSound(
         		          horse.getLocation(),
-        		          Sound.LEVEL_UP, 10.0F, 1.0F);
+        		          Sound.ENTITY_PLAYER_LEVELUP, 10.0F, 1.0F);
 
         		event.getPlayer().sendMessage(this.getChatPrefix() + this.lang.get("horseProtected").replace("%id", this.manager.getHorseIdentifier(this.manager.getHorseUUID(horse))));
 
