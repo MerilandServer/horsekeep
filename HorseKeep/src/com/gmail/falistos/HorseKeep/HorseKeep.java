@@ -22,7 +22,7 @@ import java.util.Map.Entry;
 
 public class HorseKeep extends JavaPlugin implements Listener
 {
-	public String version = "0.3.3";
+	public String version = "0.3.4";
 
 	public Permission perm = null;
 	public HorseManager manager = null;
@@ -181,7 +181,10 @@ public class HorseKeep extends JavaPlugin implements Listener
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onEntityDamage(EntityDamageEvent e) {
-
+        if (e.isCancelled()) {
+            return;
+        }
+        
 		if (this.manager.isHorse(e.getEntity()))
 		{
 			LivingEntity horse = (LivingEntity) e.getEntity();
@@ -251,6 +254,10 @@ public class HorseKeep extends JavaPlugin implements Listener
 
 	@EventHandler(priority = EventPriority.HIGH)
     public void PotionsSplash(PotionSplashEvent e){
+        if (e.isCancelled()) {
+            return;
+        }
+        
         if(e.getEntity().getShooter() instanceof Player){
                 Player thrower = (Player) e.getEntity().getShooter();
                 Collection<LivingEntity> AffectedEntities = e.getAffectedEntities();
@@ -306,8 +313,12 @@ public class HorseKeep extends JavaPlugin implements Listener
     }
 
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
     public void onChunkUnloaded(ChunkUnloadEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+        
         Chunk c = event.getChunk();
 
         Entity[] entities = c.getEntities();
@@ -327,6 +338,10 @@ public class HorseKeep extends JavaPlugin implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityInteract(PlayerInteractEntityEvent event)
     {
+      if (event.isCancelled()) {
+          return;
+      }
+      
       if (this.manager.isHorse(event.getRightClicked()))
       {
 
@@ -403,6 +418,10 @@ public class HorseKeep extends JavaPlugin implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onAnimalTame(EntityTameEvent e)
     {
+        if (e.isCancelled()) {
+            return;
+        }
+        
     	LivingEntity tamedAnimal = e.getEntity();
     	Player player = (Player) e.getOwner();
 
@@ -415,6 +434,10 @@ public class HorseKeep extends JavaPlugin implements Listener
 	@EventHandler(priority = EventPriority.HIGH)
     public void onVehicleEnter(VehicleEnterEvent event)
     {
+        if (event.isCancelled()) {
+            return;
+        }
+        
 		if (!(event.getEntered() instanceof Player)) { return; }
 
 		Player player = (Player) event.getEntered();
