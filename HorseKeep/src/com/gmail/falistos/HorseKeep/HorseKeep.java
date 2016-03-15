@@ -16,13 +16,11 @@ import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class HorseKeep extends JavaPlugin implements Listener
-{
-	public String version = "0.3.4";
+public class HorseKeep extends JavaPlugin implements Listener {
+	public String version = "0.3.5";
 
 	public Permission perm = null;
 	public HorseManager manager = null;
@@ -31,37 +29,23 @@ public class HorseKeep extends JavaPlugin implements Listener
 
 	public String prefix = "HorseKeep";
 
-	public void onEnable()
-	{
+        @Override
+	public void onEnable() {
 		// Configuration
 		getConfig().options().copyDefaults(true);
 		saveDefaultConfig();
 
 		// Chat prefix
-		if (getConfig().get("chatPrefix") != null)
-		{
+		if (getConfig().get("chatPrefix") != null) {
 			this.prefix = (String) getConfig().get("chatPrefix");
 		}
 
 		// Horses Data
 		this.data = new HorseData(this, "horses.yml");
-		this.data.migrate();
-		this.data.migrateUUID();
 
 		// Locale
 		this.lang = new Locale(this, "language_"+getConfig().getString("language"),"language_en.yml");
 		lang.saveDefault();
-
-		// Metrics
-		if (getConfig().getBoolean("enableMetrics"))
-		{
-			try {
-			    MetricsLite metrics = new MetricsLite(this);
-			    metrics.start();
-			} catch (IOException e) {
-			    getLogger().info("Can't submit plugin usage data to Metrics");
-			}
-		}
 
 		// Vault
 		if(Bukkit.getPluginManager().getPlugin("Vault") == null) {
@@ -81,13 +65,11 @@ public class HorseKeep extends JavaPlugin implements Listener
 
 	public HorseData getHorseData() { return this.data; }
 
-	public String getChatPrefix()
-	{
+	public String getChatPrefix() {
 		return ChatColor.RED + "[" + ChatColor.GOLD + this.prefix + ChatColor.RED + "] " + ChatColor.GREEN;
 	}
 
-	private boolean setupPermissions()
-    {
+	private boolean setupPermissions() {
         RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
         if (permissionProvider != null) {
             perm = permissionProvider.getProvider();
@@ -95,6 +77,7 @@ public class HorseKeep extends JavaPlugin implements Listener
         return (perm != null);
     }
 
+        @Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(cmd.getName().equalsIgnoreCase("horse")) {
 			if (args.length == 0)

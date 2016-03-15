@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>HorseKeep</groupId>
     <artifactId>HorseKeep</artifactId>
-    <version>0.3.4</version>
+    <version>0.3.5</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.5</maven.compiler.source>
-        <maven.compiler.target>1.5</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <build>
     	<sourceDirectory>${basedir}/src/</sourceDirectory>
@@ -42,17 +42,4 @@
             <version>1.5.3</version>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>test</id>
-            <activation>
-                <property>
-                    <name>test.build.dir</name>
-                </property>
-            </activation>
-            <build>
-                <directory>${test.build.dir}</directory>
-            </build>
-        </profile>
-    </profiles>
 </project>
